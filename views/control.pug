@@ -1,0 +1,67 @@
+doctype html
+html
+  head
+    title Control Centre
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="https://kit.fontawesome.com/ce30cd950e.js")
+    script(src="/socket.io/socket.io.js")
+
+    style.
+      table.chessboard {
+        margin: 10px auto;
+        background: white;
+        border: 25px solid #333;
+        border-collapse: collapse; /* */
+      }
+      td.chessboard {
+        width: 70px; height: 70px;
+        border: 2px solid #333; /* */
+      }
+      .arrow {
+        text-align: center;
+      }
+      .joystick {
+        width: 200px; height: 200px;
+        margin: 10px auto;
+        border: 3px solid black;
+      }
+
+    script.
+      var socket = io();
+
+      function onJoystickClick(event) {
+        var x = event.offsetX / 200; // 200px for width
+        var y = event.offsetY / 200; // 200px for height
+        socket.emit('set servo', {x: x, y: y});
+      }
+
+  body
+    h1(style="margin: 0 auto; text-align: center") Control Centre
+    
+    div.joystick(onclick="onJoystickClick(event)")
+
+    table.chessboard
+      tr.chessboard
+        td.chessboard
+        td.chessboard(onclick="socket.emit('forward')")
+          div.arrow
+            i(class="fas fa-arrow-up fa-3x")
+        td.chessboard
+      tr.chessboard
+        td.chessboard(onclick="socket.emit('turn left')")
+          div.arrow
+            i(class="fas fa-arrow-left fa-3x")
+        td.chessboard(onclick="socket.emit('stop')")
+          div.arrow STOP
+        td.chessboard(onclick="socket.emit('turn right')")
+          div.arrow
+            i(class="fas fa-arrow-right fa-3x")
+      tr.chessboard
+        td.chessboard
+        td.chessboard(onclick="socket.emit('backward')")
+          div.arrow
+            i(class="fas fa-arrow-down fa-3x")
+        td.chessboard
+
+    script.
+
