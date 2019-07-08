@@ -27,11 +27,11 @@ io.on('connection', (socket) => {
     console.log('Go backward my guys');
     io.emit('go backward');
   });
-  socket.on('left', () => {
+  socket.on('turn left', () => {
     console.log('Turn left my guys');
     io.emit('turn left');
   });
-  socket.on('right', () => {
+  socket.on('turn right', () => {
     console.log('Turn right my guys');
     io.emit('turn right');
   });
