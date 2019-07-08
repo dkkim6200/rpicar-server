@@ -44,7 +44,12 @@ io.on('connection', (socket) => {
   socket.on('set servo', (coord) => {
     console.log(`X: ${clamp(coord.x, 0, 1)}, Y: ${clamp(coord.y, 0, 1)}`);
     io.emit('set servo', coord);
-  })
+  });
+
+  socket.on('image', (data, callback) => {
+    socket.broadcast.emit('image', data);
+    callback('error', 'message');
+  });
   
   socket.on('disconnect', () => {
     console.log('user disconnected');

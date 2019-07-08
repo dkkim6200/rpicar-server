@@ -25,6 +25,15 @@ html
         margin: 10px auto;
         border: 3px solid black;
       }
+      .controller {
+        float: left;
+        margin: 0 10px;
+      }
+      #image {
+        float:left;
+        width: 300px;
+        height: 300px;
+      }
 
     script.
       var socket = io();
@@ -35,33 +44,40 @@ html
         socket.emit('set servo', {x: x, y: y});
       }
 
+      socket.on('image', (data) => {
+        console.log('data', data);
+        const image = document.getElementById('image');
+        image.src = `data:image/jpeg;base64,${data}`;
+      });
+
   body
     h1(style="margin: 0 auto; text-align: center") Control Centre
+
+    div.controller
+      div.joystick(onclick="onJoystickClick(event)")
+
+      table.chessboard
+        tr.chessboard
+          td.chessboard
+          td.chessboard(onclick="socket.emit('forward')")
+            div.arrow
+              i(class="fas fa-arrow-up fa-3x")
+          td.chessboard
+        tr.chessboard
+          td.chessboard(onclick="socket.emit('turn left')")
+            div.arrow
+              i(class="fas fa-arrow-left fa-3x")
+          td.chessboard(onclick="socket.emit('stop')")
+            div.arrow STOP
+          td.chessboard(onclick="socket.emit('turn right')")
+            div.arrow
+              i(class="fas fa-arrow-right fa-3x")
+        tr.chessboard
+          td.chessboard
+          td.chessboard(onclick="socket.emit('backward')")
+            div.arrow
+              i(class="fas fa-arrow-down fa-3x")
+          td.chessboard
     
-    div.joystick(onclick="onJoystickClick(event)")
-
-    table.chessboard
-      tr.chessboard
-        td.chessboard
-        td.chessboard(onclick="socket.emit('forward')")
-          div.arrow
-            i(class="fas fa-arrow-up fa-3x")
-        td.chessboard
-      tr.chessboard
-        td.chessboard(onclick="socket.emit('turn left')")
-          div.arrow
-            i(class="fas fa-arrow-left fa-3x")
-        td.chessboard(onclick="socket.emit('stop')")
-          div.arrow STOP
-        td.chessboard(onclick="socket.emit('turn right')")
-          div.arrow
-            i(class="fas fa-arrow-right fa-3x")
-      tr.chessboard
-        td.chessboard
-        td.chessboard(onclick="socket.emit('backward')")
-          div.arrow
-            i(class="fas fa-arrow-down fa-3x")
-        td.chessboard
-
-    script.
+    img#image(src="/images/cam.jpg")
 
