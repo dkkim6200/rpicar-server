@@ -48,7 +48,10 @@ io.on('connection', (socket) => {
 
   socket.on('image', (data, callback) => {
     socket.broadcast.emit('image', data);
-    callback('error', 'message');
+  });
+
+  socket.on('image received', () => {
+    socket.broadcast.emit('image received');
   });
   
   socket.on('disconnect', () => {

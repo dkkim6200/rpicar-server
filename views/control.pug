@@ -48,6 +48,8 @@ html
         console.log('data', data);
         const image = document.getElementById('image');
         image.src = `data:image/jpeg;base64,${data}`;
+
+        socket.emit('image received');
       });
 
   body
